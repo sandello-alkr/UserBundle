@@ -1,0 +1,6 @@
+services:
+    my_user.registration.form.type:
+        class: alkr\UserBundle\Form\RegistrationFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: my_user_register }

@@ -1,0 +1,30 @@
+{% extends 'FOSUserBundle::layout.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+{% block fos_user_content %}
+
+{% if error %}
+    <div>{{ error|trans }}</div>
+{% endif %}
+
+<form action="{{ path("fos_user_security_check") }}" method="post" id="login">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+    <label for="username">{{ 'security.login.username'|trans }}</label>
+    <br/>
+    <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+    <br/>
+    <label for="password">{{ 'security.login.password'|trans }}</label>
+    <br/>
+    <input type="password" id="password" name="_password" required="required" />
+    <br/>
+    <label id="remember_me_label"><input type="checkbox" id="remember_me" name="_remember_me" value="on" /> {{ 'security.login.remember_me'|trans }}</label> <a href="{{ path('fos_user_resetting_request') }}">Забыли пароль?</a>
+    <br/>
+    <input class="btn btn-primary" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" /> 
+    <a href="{{ path('fos_user_registration_register') }}"><div class="btn btn-default">Зарегистрироваться</div></a>
+    <br/>
+</form>
+{% if '/order/' in app.session.get('_security.main.target_path') %}
+	{% set lol = app.session.set('_security.main.target_path',path('playground_show',{'id':app.session.get('_security.main.target_path')|split('/')|last,'order':'open'})) %}
+{% endif %}
+{% endblock fos_user_content %}
